@@ -720,7 +720,7 @@ def filter_rank_genes_groups(
         adata.obs['__is_in_cluster__'] = pd.Categorical(adata.obs[groupby] == cluster)
 
         # obs_tidy has rows=groupby, columns=var_names
-        categories, obs_tidy = get._prepare_dataframe(
+        categories, obs_tidy = get._indexed_expression_df(
             adata,
             var_names,
             groupby='__is_in_cluster__',
