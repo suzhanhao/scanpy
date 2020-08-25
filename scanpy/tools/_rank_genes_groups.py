@@ -9,6 +9,7 @@ from anndata import AnnData
 from scipy.sparse import issparse, vstack
 
 from .. import _utils
+from .. import get
 from .. import logging as logg
 from ..preprocessing._simple import _get_mean_var
 from .._compat import Literal
@@ -710,7 +711,6 @@ def filter_rank_genes_groups(
         f"min_fold_change: {min_fold_change}, "
         f"max_out_group_fraction: {max_out_group_fraction}"
     )
-    from ..plotting._anndata import _prepare_dataframe
     for cluster in gene_names.columns:
         # iterate per column
         var_names = gene_names[cluster].values
@@ -720,7 +720,7 @@ def filter_rank_genes_groups(
         adata.obs['__is_in_cluster__'] = pd.Categorical(adata.obs[groupby] == cluster)
 
         # obs_tidy has rows=groupby, columns=var_names
-        categories, obs_tidy = _prepare_dataframe(
+        categories, obs_tidy = get._prepare_dataframe(
             adata,
             var_names,
             groupby='__is_in_cluster__',
