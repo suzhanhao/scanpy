@@ -906,7 +906,8 @@ def rank_genes_groups_violin(
             if issparse(X_col):
                 X_col = X_col.toarray().flatten()
             new_gene_names.append(g)
-            df[g] = X_col
+            df_add = pd.DataFrame({g: X_col[:, 0]})
+            pd.concat([df, df_add], axis=1)
         df['hue'] = adata.obs[groups_key].astype(str).values
         if reference == 'rest':
             df.loc[df['hue'] != group_name, 'hue'] = 'rest'
